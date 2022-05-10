@@ -14,6 +14,7 @@ class PostController extends Controller
     public function index()
     {
         $data = Post::paginate();
+        // return view('welcome', $data);
         return response()->json([
             'success'   => true,
             'message'   => 'Success show post',
