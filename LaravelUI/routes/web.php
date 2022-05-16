@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['auth'])->group(function () {
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/', 'index')->name('dashboard');
+    });
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/user', 'index')->name('user.index');
+    });
+
+    Route::resource('article', ArticlesController::class);
+    Route::resource('category', CategoryController::class);
 });
 
 Auth::routes();
